@@ -42,7 +42,7 @@ class UserServiceImplTest {
 	}
 	
 	
-	@Test()
+	@Test
 	final void testSignUp() {
 		
 		UserEntity userEntity = new UserEntity();

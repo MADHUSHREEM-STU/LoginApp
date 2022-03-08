@@ -17,7 +17,7 @@ public interface UserService {
 	
 	public ApiResponse forgetPassword(ForgetPasswordDto forgetPasswordDto);
 	
-	public ApiResponse updatePassword(SignUpDto signUpDto);
+	public SignUpDto updatePassword(SignUpDto signUpDto);
 
 	public SignUpDto getUserByEmail(String email);
 	

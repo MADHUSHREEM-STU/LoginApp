@@ -49,8 +49,8 @@ public class UserController {
 	}
 	
 	@PutMapping("/resetpassword")
-	public ResponseEntity<ApiResponse> resetPassword(@RequestBody SignUpDto signUpDto) {
-		ApiResponse updatedPassword =userService.updatePassword(signUpDto);
+	public ResponseEntity<SignUpDto> resetPassword(@RequestBody SignUpDto signUpDto) {
+		SignUpDto updatedPassword =userService.updatePassword(signUpDto);
 		return new ResponseEntity<>(updatedPassword, HttpStatus.OK);
 	}
 	

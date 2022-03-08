@@ -55,6 +55,8 @@ public class EntityModelUtil {
 			signUpDto.setEmail(entity.getEmail());
 			signUpDto.setPassword(entity.getPassword());
 			signUpDto.setRole(entity.getRole());
+			signUpDto.setSecurityQuestion(entity.getSecurityQuestion());
+			signUpDto.setSecurityAnswer(entity.getSecurityAnswer());
 			userList.add(signUpDto);
 			
 		});

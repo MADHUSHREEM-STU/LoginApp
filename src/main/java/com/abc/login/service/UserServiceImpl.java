@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	public ApiResponse updatePassword(SignUpDto signUpDto) throws UserNotFoundException{
+	public SignUpDto updatePassword(SignUpDto signUpDto) throws UserNotFoundException{
 
 		UserEntity user = userRepository.findByEmail(signUpDto.getEmail());
 
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService{
 
 		UserEntity updatedUserEntity = userRepository.save(EntityModelUtil.userModelToEntity(signUpDto));
 
-		return new ApiResponse(200,"password updated successfully", EntityModelUtil.userEntityToModel(updatedUserEntity));
+		return EntityModelUtil.userEntityToModel(updatedUserEntity);
 	}	
 
 	@Override
