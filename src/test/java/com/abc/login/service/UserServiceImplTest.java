@@ -124,7 +124,7 @@ class UserServiceImplTest {
 	
 	
 	@Test
-	final void deleteUser() {
+	final void testDeleteUser() {
 		int id = 2;
 		UserEntity userEntity = new UserEntity();
 		userEntity.setId(2);
