@@ -119,7 +119,7 @@ class UserServiceImplTest {
 	    when(userRepository.findAll()).thenReturn(userList);
 
 	    List<SignUpDto> fetchedusers = userService.getAllUsers();
-	    assertThat(fetchedusers.size()).isGreaterThan(0);
+	    assertThat(fetchedusers).hasSizeGreaterThan(1);
 	}
 	
 	
