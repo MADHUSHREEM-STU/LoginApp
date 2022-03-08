@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name="users")
 public class UserEntity {
 	
     private int id;
@@ -20,7 +20,7 @@ public class UserEntity {
     private String securityAnswer;
 
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -84,9 +84,6 @@ public class UserEntity {
 
 	public void setSecurityAnswer(String securityAnswer) {
 		this.securityAnswer = securityAnswer;
-	}
-    
-    
-    
+	}  
 }
 
