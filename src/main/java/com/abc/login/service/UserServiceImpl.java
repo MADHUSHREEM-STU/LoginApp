@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
 			throw new PasswordMismatchException("Password mismatch.");
 		}
 		if(!user.getRole().equals(loginDto.getRole())) {
-			throw new InvalidRoleException("no user registered with this role: "+user.getRole());
+			throw new InvalidRoleException("no user registered with this role ");
 		}
 		return new ApiResponse(200,"Login sucess","u have successfully logged in:");
 	}	
@@ -64,9 +64,11 @@ public class UserServiceImpl implements UserService{
 		if(user==null) {
 			throw new UserNotFoundException("Sorry! User is not existing with this Email ");
 		}
-		UserEntity userSecurity=userRepository.findBySecurityAnswer(forgetPasswordDto.getSecurityAnswer());
-		if(userSecurity==null) {
-			throw new IncorrectAnswerException("Security answer is incorrect");
+		
+		List<UserEntity> list=userRepository.findUserBySecurityAnswer(forgetPasswordDto.getSecurityAnswer());
+		if(list.isEmpty() && (userRepository.findBySecurityAnswer(forgetPasswordDto.getSecurityAnswer())==null))
+		{
+			throw new IncorrectAnswerException("answer is not correct");
 		}
 
 		return new ApiResponse(200, "you can reset password"," security question answered correctly");

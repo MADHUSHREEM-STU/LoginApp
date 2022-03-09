@@ -3,10 +3,13 @@ package com.abc.login.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.abc.login.dto.ForgetPasswordDto;
 import com.abc.login.dto.SignUpDto;
 import com.abc.login.entity.UserEntity;
 
+@Component
 public class EntityModelUtil {
 	
 	

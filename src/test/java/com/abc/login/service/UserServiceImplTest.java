@@ -139,7 +139,6 @@ class UserServiceImplTest {
 		
 		when(userRepository.findById(id)).thenReturn(optionalUser);
 
-		
 		userService.deleteUser(userEntity.getId());
 		
 		verify(userRepository,times(1)).deleteById(id);

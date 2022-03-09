@@ -16,6 +16,9 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer>{
 	
 	public UserEntity findBySecurityAnswer(String securityAnswer);
 	
+	@Query("Select a from UserEntity a where a.securityAnswer = :asecurityAnswer")
+	public List<UserEntity> findUserBySecurityAnswer(@Param("asecurityAnswer")String email);
+	
 	@Query("Select u from UserEntity u where u.email = :uemail")
 	public List<UserEntity> findUserByEmail(@Param("uemail")String email);
 
