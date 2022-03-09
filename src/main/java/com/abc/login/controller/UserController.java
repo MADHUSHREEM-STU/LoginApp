@@ -20,13 +20,10 @@ import com.abc.login.dto.LoginDto;
 import com.abc.login.dto.SignUpDto;
 import com.abc.login.service.UserService;
 
-
-
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -35,41 +32,40 @@ public class UserController {
 		SignUpDto userDetails = userService.signUp(signUpDto);
 		return new ResponseEntity<>(userDetails, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<ApiResponse> login(@RequestBody LoginDto loginDto) {
 		ApiResponse loginDetails = userService.login(loginDto);
-		return new ResponseEntity<>( loginDetails, HttpStatus.OK);
+		return new ResponseEntity<>(loginDetails, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/forgetpassword")
 	public ResponseEntity<ApiResponse> forgetPassword(@RequestBody ForgetPasswordDto forgetPasswordDto) {
 		ApiResponse securityDetails = userService.forgetPassword(forgetPasswordDto);
-		return new ResponseEntity<>( securityDetails, HttpStatus.OK);
+		return new ResponseEntity<>(securityDetails, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/resetpassword")
 	public ResponseEntity<SignUpDto> resetPassword(@RequestBody SignUpDto signUpDto) {
-		SignUpDto updatedPassword =userService.updatePassword(signUpDto);
+		SignUpDto updatedPassword = userService.updatePassword(signUpDto);
 		return new ResponseEntity<>(updatedPassword, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getbyemail/{pemail}")
 	public ResponseEntity<SignUpDto> fetchUserDetails(@PathVariable("pemail") String email) {
-		SignUpDto userdetails= userService.getUserByEmail(email);
+		SignUpDto userdetails = userService.getUserByEmail(email);
 		return new ResponseEntity<>(userdetails, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/all")
 	public List<SignUpDto> fetchAllUsers() {
-		return userService.getAllUsers();	
+		return userService.getAllUsers();
 	}
-	
+
 	@DeleteMapping("/delete/{pid}")
 	public ResponseEntity<String> deleteUser(@PathVariable("pid") int id) {
 		userService.deleteUser(id);
-		return new ResponseEntity<>("User Deleted successfully with id: "+id, HttpStatus.OK);
+		return new ResponseEntity<>("User Deleted successfully with id: " + id, HttpStatus.OK);
 	}
 
 }
-

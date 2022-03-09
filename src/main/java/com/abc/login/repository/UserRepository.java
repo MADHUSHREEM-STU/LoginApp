@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 import com.abc.login.entity.UserEntity;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity,Integer>{
-	
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+
 	public UserEntity findByEmail(String email);
-	
+
 	@Query("Select u from UserEntity u where u.email = :uemail")
-	public List<UserEntity> findUsersByEmail(@Param("uemail")String email);
+	public List<UserEntity> findUsersByEmail(@Param("uemail") String email);
 
 }

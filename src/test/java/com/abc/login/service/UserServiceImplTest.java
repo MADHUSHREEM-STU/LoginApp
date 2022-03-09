@@ -32,19 +32,18 @@ import com.abc.login.util.EntityModelUtil;
 class UserServiceImplTest {
 	@InjectMocks
 	UserServiceImpl userService;
-	
+
 	@Mock
 	UserRepository userRepository;
-	
+
 	@Before(value = "")
 	public void init() {
 		MockitoAnnotations.openMocks(this);
 	}
-	
-	
+
 	@Test
 	final void testSignUp() {
-		
+
 		UserEntity userEntity = new UserEntity();
 		userEntity.setId(1);
 		userEntity.setFirstname("madhu");
@@ -54,17 +53,17 @@ class UserServiceImplTest {
 		userEntity.setRole("admin");
 		userEntity.setSecurityQuestion("ur school");
 		userEntity.setSecurityAnswer("evergreen");
-		
-		 when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
 
-		 SignUpDto savedUser = userService.signUp(EntityModelUtil.userEntityToModel(userEntity));
-	     assertThat(savedUser.getFirstname()).isNotNull();
-	     assertEquals(userEntity.getFirstname(), savedUser.getFirstname());
+		when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+
+		SignUpDto savedUser = userService.signUp(EntityModelUtil.userEntityToModel(userEntity));
+		assertThat(savedUser.getFirstname()).isNotNull();
+		assertEquals(userEntity.getFirstname(), savedUser.getFirstname());
 	}
-	
+
 	@Test
 	final void testGetUserByEmail() {
-		UserEntity userEntity=new UserEntity();
+		UserEntity userEntity = new UserEntity();
 		userEntity.setId(1);
 		userEntity.setFirstname("madhu");
 		userEntity.setLastname("shree");
@@ -73,56 +72,53 @@ class UserServiceImplTest {
 		userEntity.setRole("admin");
 		userEntity.setSecurityQuestion("ur school");
 		userEntity.setSecurityQuestion("evergreen");
-		
+
 		when(userRepository.findByEmail(anyString())).thenReturn(userEntity);
-		SignUpDto signUpDto=userService.getUserByEmail("mad@gmail.com");
+		SignUpDto signUpDto = userService.getUserByEmail("mad@gmail.com");
 		assertNotNull(signUpDto);
-		assertEquals("madhu",signUpDto.getFirstname());
+		assertEquals("madhu", signUpDto.getFirstname());
 	}
-	
-	
+
 	@Test
 	final void testGetUserByEmail_UserNotFountException() {
 		when(userRepository.findByEmail(anyString())).thenReturn(null);
-		assertThrows(UserNotFoundException.class,()->{
+		assertThrows(UserNotFoundException.class, () -> {
 			userService.getUserByEmail("mad@gmail.com");
-			});
+		});
 	}
-	
+
 	@Test
 	final void testGetAllUsers() {
-	    UserEntity userEntity1 = new UserEntity();
-	    userEntity1.setId(1);
-	    userEntity1.setFirstname("madhu");
-	    userEntity1.setLastname("shree");
-	    userEntity1.setEmail("mad@gmail.com");
-	    userEntity1.setPassword("madhu");
-	    userEntity1.setRole("admin");
-	    userEntity1.setSecurityQuestion("ur school");
-	    userEntity1.setSecurityAnswer("evergreen");
-	    
-	    
-	    UserEntity userEntity2 = new UserEntity();
-	    userEntity2.setId(1);
-	    userEntity2.setFirstname("kavya");
-	    userEntity2.setLastname("shree");
-	    userEntity2.setEmail("kavya@gmail.com");
-	    userEntity2.setPassword("kavya");
-	    userEntity2.setRole("user");
-	    userEntity2.setSecurityQuestion("ur school");
-	    userEntity2.setSecurityAnswer("pragathi");
-	    
-	    List<UserEntity> userList = new ArrayList<UserEntity>();
-	    userList.add(userEntity1);
-	    userList.add(userEntity2);
+		UserEntity userEntity1 = new UserEntity();
+		userEntity1.setId(1);
+		userEntity1.setFirstname("madhu");
+		userEntity1.setLastname("shree");
+		userEntity1.setEmail("mad@gmail.com");
+		userEntity1.setPassword("madhu");
+		userEntity1.setRole("admin");
+		userEntity1.setSecurityQuestion("ur school");
+		userEntity1.setSecurityAnswer("evergreen");
 
-	    when(userRepository.findAll()).thenReturn(userList);
+		UserEntity userEntity2 = new UserEntity();
+		userEntity2.setId(1);
+		userEntity2.setFirstname("kavya");
+		userEntity2.setLastname("shree");
+		userEntity2.setEmail("kavya@gmail.com");
+		userEntity2.setPassword("kavya");
+		userEntity2.setRole("user");
+		userEntity2.setSecurityQuestion("ur school");
+		userEntity2.setSecurityAnswer("pragathi");
 
-	    List<SignUpDto> fetchedusers = userService.getAllUsers();
-	    assertThat(fetchedusers).hasSizeGreaterThan(1);
+		List<UserEntity> userList = new ArrayList<UserEntity>();
+		userList.add(userEntity1);
+		userList.add(userEntity2);
+
+		when(userRepository.findAll()).thenReturn(userList);
+
+		List<SignUpDto> fetchedusers = userService.getAllUsers();
+		assertThat(fetchedusers).hasSizeGreaterThan(1);
 	}
-	
-	
+
 	@Test
 	final void testDeleteUser() {
 		int id = 2;
@@ -134,17 +130,16 @@ class UserServiceImplTest {
 		userEntity.setPassword("madhu");
 		userEntity.setSecurityQuestion("ur school");
 		userEntity.setSecurityAnswer("evergreen");
-		
+
 		Optional<UserEntity> optionalUser = Optional.of(userEntity);
-		
+
 		when(userRepository.findById(id)).thenReturn(optionalUser);
 
 		userService.deleteUser(userEntity.getId());
-		
-		verify(userRepository,times(1)).deleteById(id);
-		
-		doNothing().when(userRepository).deleteById(userEntity.getId());	
+
+		verify(userRepository, times(1)).deleteById(id);
+
+		doNothing().when(userRepository).deleteById(userEntity.getId());
 	}
-	
 
 }

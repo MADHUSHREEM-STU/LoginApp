@@ -3,16 +3,11 @@ package com.abc.login.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import com.abc.login.dto.ForgetPasswordDto;
 import com.abc.login.dto.SignUpDto;
 import com.abc.login.entity.UserEntity;
 
-@Component
 public class EntityModelUtil {
-	
-	
 
 	private EntityModelUtil() {
 		super();
@@ -45,11 +40,11 @@ public class EntityModelUtil {
 
 		return signUpDto;
 	}
-	
+
 	public static List<SignUpDto> userEntityToModelList(List<UserEntity> entityList) {
-		
+
 		List<SignUpDto> userList = new ArrayList<>();
-		
+
 		entityList.forEach(entity -> {
 			SignUpDto signUpDto = new SignUpDto();
 			signUpDto.setId(entity.getId());
@@ -61,12 +56,12 @@ public class EntityModelUtil {
 			signUpDto.setSecurityQuestion(entity.getSecurityQuestion());
 			signUpDto.setSecurityAnswer(entity.getSecurityAnswer());
 			userList.add(signUpDto);
-			
+
 		});
-		
+
 		return userList;
 	}
-	
+
 	public static ForgetPasswordDto passwordEntityToModel(UserEntity userEntity) {
 
 		ForgetPasswordDto forgetPasswordDto = new ForgetPasswordDto();
@@ -75,7 +70,7 @@ public class EntityModelUtil {
 		forgetPasswordDto.setSecurityAnswer(userEntity.getSecurityAnswer());
 		return forgetPasswordDto;
 	}
-	
+
 	public static UserEntity passwordModelToEntity(ForgetPasswordDto forgetPasswordDto) {
 
 		UserEntity userEntity = new UserEntity();
@@ -84,5 +79,5 @@ public class EntityModelUtil {
 		userEntity.setSecurityAnswer(forgetPasswordDto.getSecurityAnswer());
 		return userEntity;
 	}
-	
+
 }

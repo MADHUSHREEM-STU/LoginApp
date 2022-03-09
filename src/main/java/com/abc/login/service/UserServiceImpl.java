@@ -19,101 +19,160 @@ import com.abc.login.exception.UserNotFoundException;
 import com.abc.login.repository.UserRepository;
 import com.abc.login.util.EntityModelUtil;
 
-
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
 
+	
+	/****************************************************************************************************************************
+	 - Method Name      : signUp
+	 - Input Parameters : SignUpDto signUpDto
+	 - Return type      : SignUpDto
+	 - Author           : Madhushree M
+	 - Creation Date    : 06-03-2022
+	 - Description      : Registering user details into  the database.
+	  ****************************************************************************************************************************/
+	
 	@Override
 	public SignUpDto signUp(SignUpDto signUpDto) throws UserAlreadyExistsException {
-		UserEntity userEntity=null;
-		List<UserEntity> list=userRepository.findUsersByEmail(signUpDto.getEmail());
-		if(!(list.isEmpty()))
-		{
+		UserEntity userEntity = null;
+		List<UserEntity> list = userRepository.findUsersByEmail(signUpDto.getEmail());
+		if (!(list.isEmpty())) {
 			throw new UserAlreadyExistsException(" Oops!  There is already a user registered with this email.");
-		}
-		else
-		{
-			userEntity=userRepository.save(EntityModelUtil.userModelToEntity(signUpDto));
+		} else {
+			userEntity = userRepository.save(EntityModelUtil.userModelToEntity(signUpDto));
 		}
 
 		return EntityModelUtil.userEntityToModel(userEntity);
 	}
-
+	
+	/****************************************************************************************************************************
+	 - Method Name      : login
+	 - Input Parameters : LoginDto loginDto
+	 - Return type      : LoginDto
+	 - Author           : Madhushree M
+	 - Creation Date    : 06-03-2022
+	 - Description      : Login using the registered details.
+	  ****************************************************************************************************************************/
+	
 	@Override
-	public ApiResponse login(LoginDto loginDto)  throws UserNotFoundException,PasswordMismatchException,InvalidRoleException{
+	public ApiResponse login(LoginDto loginDto)
+			throws UserNotFoundException, PasswordMismatchException, InvalidRoleException {
 
-		UserEntity user=userRepository.findByEmail(loginDto.getEmail());
-		if(user==null) {
+		UserEntity user = userRepository.findByEmail(loginDto.getEmail());
+		if (user == null) {
 			throw new UserNotFoundException("User does not exist with this email id.");
 		}
-		if(!user.getPassword().equals(loginDto.getPassword())) {
+		if (!user.getPassword().equals(loginDto.getPassword())) {
 			throw new PasswordMismatchException("Password mismatch.");
 		}
-		if(!user.getRole().equals(loginDto.getRole())) {
+		if (!user.getRole().equals(loginDto.getRole())) {
 			throw new InvalidRoleException("no user registered with this role ");
 		}
-		return new ApiResponse(200,"Login sucess","u have successfully logged in:");
-	}	
+		return new ApiResponse(200, "Login sucess", "u have successfully logged in:");
+	}
+	
+	/****************************************************************************************************************************
+	 - Method Name      : forgetPassword
+	 - Input Parameters : ForgetPasswordDto forgetPasswordDto
+	 - Return type      : ApiResponse
+	 - Author           : Madhushree M
+	 - Creation Date    : 06-03-2022
+	 - Description      : condition for forget password.
+	  ****************************************************************************************************************************/
 
 	@Override
-	public ApiResponse forgetPassword(ForgetPasswordDto forgetPasswordDto)throws IncorrectAnswerException,UserNotFoundException {
-		
-		UserEntity user=userRepository.findByEmail(forgetPasswordDto.getEmail());
-		if(user==null) {
+	public ApiResponse forgetPassword(ForgetPasswordDto forgetPasswordDto)
+			throws IncorrectAnswerException, UserNotFoundException {
+
+		UserEntity user = userRepository.findByEmail(forgetPasswordDto.getEmail());
+		if (user == null) {
 			throw new UserNotFoundException("Sorry! User is not existing with this Email ");
 		}
-		if(!user.getSecurityAnswer().equals(forgetPasswordDto.getSecurityAnswer())) {
+		if (!user.getSecurityAnswer().equals(forgetPasswordDto.getSecurityAnswer())) {
 			throw new IncorrectAnswerException("answer is incorrect.");
 		}
 
-		return new ApiResponse(200, "you can reset password"," security question answered correctly");
+		return new ApiResponse(200, "you can reset password", " security question answered correctly");
 	}
-
-
+	
+	/****************************************************************************************************************************
+	 - Method Name      : updatePassword
+	 - Input Parameters : signUpDto signUpDto
+	 - Return type      : SignUpDto
+	 - Author           : Madhushree M
+	 - Creation Date    : 06-03-2022
+	 - Description      : updating the information.
+	  ****************************************************************************************************************************/
+	
 	@Override
-	public SignUpDto updatePassword(SignUpDto signUpDto) throws UserNotFoundException{
+	public SignUpDto updatePassword(SignUpDto signUpDto) throws UserNotFoundException {
 
 		UserEntity user = userRepository.findByEmail(signUpDto.getEmail());
 
-		if(user==null) {
+		if (user == null) {
 			throw new UserNotFoundException("User does not exist with this email id.");
 		}
 
 		UserEntity updatedUserEntity = userRepository.save(EntityModelUtil.userModelToEntity(signUpDto));
 
 		return EntityModelUtil.userEntityToModel(updatedUserEntity);
-	}	
+	}
+	
+	/****************************************************************************************************************************
+	 - Method Name      : getUserByEmail
+	 - Input Parameters : String email
+	 - Return type      : SignUpDto
+	 - Author           : Madhushree M
+	 - Creation Date    : 06-03-2022
+	 - Description      : fetching user information using email.
+	  ****************************************************************************************************************************/
 
 	@Override
-	public SignUpDto getUserByEmail(String email) throws UserNotFoundException{
+	public SignUpDto getUserByEmail(String email) throws UserNotFoundException {
 
 		UserEntity userEntity = userRepository.findByEmail(email);
-		if(userEntity==null) {
+		if (userEntity == null) {
 			throw new UserNotFoundException("Sorry! User is not existing with this Email ");
 		}
 		return EntityModelUtil.userEntityToModel(userEntity);
 	}
+	
+	/****************************************************************************************************************************
+	 - Method Name      : getAllUsers
+	 - Return type      : List<SignUpDto>
+	 - Author           : Madhushree M
+	 - Creation Date    : 06-03-2022
+	 - Description      : fetching all users information.
+	  ****************************************************************************************************************************/
 
 	@Override
-	public List<SignUpDto> getAllUsers(){
+	public List<SignUpDto> getAllUsers() {
 
 		return EntityModelUtil.userEntityToModelList(userRepository.findAll());
 	}
+	
+	/****************************************************************************************************************************
+	 - Method Name      : deleteUser
+	 - Input Parameters : int id
+	 - Return type      : void
+	 - Author           : Madhushree M
+	 - Creation Date    : 06-03-2022
+	 - Description      : deleting the user by id.
+	  ****************************************************************************************************************************/
 
 	@Override
-	public void deleteUser(int id) throws UserNotFoundException{
+	public void deleteUser(int id) throws UserNotFoundException {
 
 		Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
 
-		if(optionalUserEntity.isPresent()) {			
-			userRepository.deleteById(id);			
+		if (optionalUserEntity.isPresent()) {
+			userRepository.deleteById(id);
+		} else {
+			throw new UserNotFoundException("Sorry! User is not existing with id: " + id);
 		}
-		else {
-			throw new UserNotFoundException("Sorry! User is not existing with id: "+id);
-		}			
 	}
 
 }

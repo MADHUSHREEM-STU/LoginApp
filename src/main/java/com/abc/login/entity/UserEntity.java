@@ -7,30 +7,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class UserEntity {
-	
-    private int id;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String password;
-    private String role;
-    private String securityQuestion;
-    private String securityAnswer;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
+	private int id;
+	private String firstname;
+	private String lastname;
+	private String email;
+	private String password;
+	private String role;
+	private String securityQuestion;
+	private String securityAnswer;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return id;
+	}
 
-    
-    public String getFirstname() {
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getFirstname() {
 		return firstname;
 	}
 
@@ -55,12 +54,12 @@ public class UserEntity {
 	}
 
 	public String getPassword() {
-        return password;
-    }
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public String getRole() {
 		return role;
@@ -84,6 +83,5 @@ public class UserEntity {
 
 	public void setSecurityAnswer(String securityAnswer) {
 		this.securityAnswer = securityAnswer;
-	}  
+	}
 }
-
