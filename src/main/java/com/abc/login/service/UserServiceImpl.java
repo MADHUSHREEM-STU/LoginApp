@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public SignUpDto signUp(SignUpDto signUpDto) throws UserAlreadyExistsException {
 		UserEntity userEntity=null;
-		List<UserEntity> list=userRepository.findUserByEmail(signUpDto.getEmail());
+		List<UserEntity> list=userRepository.findUsersByEmail(signUpDto.getEmail());
 		if(!(list.isEmpty()))
 		{
 			throw new UserAlreadyExistsException(" Oops!  There is already a user registered with this email.");
@@ -60,15 +60,13 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public ApiResponse forgetPassword(ForgetPasswordDto forgetPasswordDto)throws IncorrectAnswerException,UserNotFoundException {
+		
 		UserEntity user=userRepository.findByEmail(forgetPasswordDto.getEmail());
 		if(user==null) {
 			throw new UserNotFoundException("Sorry! User is not existing with this Email ");
 		}
-		
-		List<UserEntity> list=userRepository.findUserBySecurityAnswer(forgetPasswordDto.getSecurityAnswer());
-		if(list.isEmpty() && (userRepository.findBySecurityAnswer(forgetPasswordDto.getSecurityAnswer())==null))
-		{
-			throw new IncorrectAnswerException("answer is not correct");
+		if(!user.getSecurityAnswer().equals(forgetPasswordDto.getSecurityAnswer())) {
+			throw new IncorrectAnswerException("answer is incorrect.");
 		}
 
 		return new ApiResponse(200, "you can reset password"," security question answered correctly");
